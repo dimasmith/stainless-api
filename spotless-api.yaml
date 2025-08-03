@@ -13,31 +13,7 @@ paths:
       operationId: startGame
       description: Starts a new game of chess.
       requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                playAs:
-                  type: string
-                  description: Piece color to play as (e.g., 'white' or 'black')
-                  enum:
-                    - white
-                    - black
-                    - random
-                  default:
-                    random
-                timeControl:
-                  type: string
-                  description: Time control for the game (e.g., 'blitz', 'rapid', 'classical')
-                  enum:
-                    - blitz
-                    - rapid
-                    - classical
-                  default:
-                    rapid
-
+        $ref: '#/components/requestBodies/NewGameRequest'
       responses:
         '201':
           description: Game started successfully
@@ -60,3 +36,31 @@ paths:
                     type: string
                     description: Error message describing the issue
 
+components:
+  schemas:
+    StartNewGameRequest:
+      type: object
+      properties:
+        playAs:
+          type: string
+          description: Piece color to play as (e.g., 'white' or 'black')
+          enum:
+            - white
+            - black
+            - random
+          default: random
+        timeControl:
+          type: string
+          description: Time control for the game (e.g., 'blitz', 'rapid', 'classical')
+          enum:
+            - blitz
+            - rapid
+            - classical
+          default: rapid
+  requestBodies:
+    NewGameRequest:
+      description: Request body for starting a new game
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StartNewGameRequest'
